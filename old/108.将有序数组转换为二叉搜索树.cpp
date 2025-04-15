@@ -17,15 +17,18 @@
  * };
  */
 class Solution {
-    TreeNode* trav(vector<int>& nums,int l,int r){
-        if(l==r)
-            return nullptr;
-        int m=l+(r-l)/2;
-        return new TreeNode(nums[m],trav(nums,l,m),trav(nums,m+1,r));
-    }
 public:
+    TreeNode* build(vector<int>& nums,int begin,int end){
+        // [begin,end)
+        if(begin>=end) return NULL;
+        int mid=(begin+end)/2;
+        TreeNode* node=new TreeNode(nums[mid]);
+        node->left=build(nums,begin,mid);
+        node->right=build(nums,mid+1,end);
+        return node;
+    }
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return trav(nums,0,nums.size());
+        return build(nums,0,nums.size());
     }
 };
 // @lc code=end

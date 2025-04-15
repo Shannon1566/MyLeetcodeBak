@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=108 lang=cpp
+ * @lc app=leetcode.cn id=101 lang=cpp
  *
- * [108] 将有序数组转换为二叉搜索树
+ * [101] 对称二叉树
  */
 #include "0.cpp"
 // @lc code=start
@@ -17,15 +17,15 @@
  * };
  */
 class Solution {
-    TreeNode* trav(vector<int>& nums,int l,int r){
-        if(l==r)
-            return nullptr;
-        int m=l+(r-l)/2;
-        return new TreeNode(nums[m],trav(nums,l,m),trav(nums,m+1,r));
+    bool trav(TreeNode* l,TreeNode* r){
+        if(l==nullptr||r==nullptr)
+            return l==r;
+        return (l->val==r->val)&&trav(l->left,r->right)&&trav(l->right,r->left);
     }
 public:
-    TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return trav(nums,0,nums.size());
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+        return trav(root->left,root->right);
     }
 };
 // @lc code=end

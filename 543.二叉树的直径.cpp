@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=108 lang=cpp
+ * @lc app=leetcode.cn id=543 lang=cpp
  *
- * [108] 将有序数组转换为二叉搜索树
+ * [543] 二叉树的直径
  */
 #include "0.cpp"
 // @lc code=start
@@ -17,15 +17,20 @@
  * };
  */
 class Solution {
-    TreeNode* trav(vector<int>& nums,int l,int r){
-        if(l==r)
-            return nullptr;
-        int m=l+(r-l)/2;
-        return new TreeNode(nums[m],trav(nums,l,m),trav(nums,m+1,r));
+    int ans=0;
+    int dfs(TreeNode* node){
+        if(node==nullptr)
+            return -1;
+        int ll=dfs(node->left);
+        int rl=dfs(node->right);
+        ans=max(ans,ll+rl+2);
+        return max(ll,rl)+1;
     }
 public:
-    TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return trav(nums,0,nums.size());
+    int diameterOfBinaryTree(TreeNode* root) {
+        dfs(root);
+        return ans;
+
     }
 };
 // @lc code=end
