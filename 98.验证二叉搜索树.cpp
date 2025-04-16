@@ -17,15 +17,20 @@
  * };
  */
 class Solution {
-    bool isValid(TreeNode* root,long long left=LONG_LONG_MIN,long long right=LONG_LONG_MAX){
-        if (root==nullptr)
+    bool isValid(TreeNode* node,long minVal,long maxVal){
+        if(node==nullptr) 
             return true;
-        long long x= root->val;
-        return left<x&&x<right&&isValid(root->left,left,x)&&isValid(root->right,x,right);
+        if(node->val<=minVal||node->val>=maxVal)
+            return false;
+        else{
+            return isValid(node->left,minVal,node->val)&&isValid(node->right,node->val,maxVal);
+        }
     }
 public:
     bool isValidBST(TreeNode* root) {
-        return isValid(root);
+        if(root==nullptr)
+            return true;
+        return isValid(root,LONG_MIN,LONG_MAX);
     }
 };
 // @lc code=end

@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=98 lang=cpp
+ * @lc app=leetcode.cn id=114 lang=cpp
  *
- * [98] 验证二叉搜索树
+ * [114] 二叉树展开为链表
  */
 #include "0.cpp"
 // @lc code=start
@@ -17,15 +17,16 @@
  * };
  */
 class Solution {
-    bool isValid(TreeNode* root,long long left=LONG_LONG_MIN,long long right=LONG_LONG_MAX){
-        if (root==nullptr)
-            return true;
-        long long x= root->val;
-        return left<x&&x<right&&isValid(root->left,left,x)&&isValid(root->right,x,right);
-    }
+    TreeNode* head;
 public:
-    bool isValidBST(TreeNode* root) {
-        return isValid(root);
+    void flatten(TreeNode* root) {
+        if(root==nullptr) return ;
+        flatten(root->right);
+        flatten(root->left);
+        root->left=nullptr;
+        root->right=head;
+        head=root;
+        return ;
     }
 };
 // @lc code=end

@@ -3,51 +3,7 @@
  *
  * [199] 二叉树的右视图
  */
-#include <stack>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <queue>
-#include <algorithm>
-using namespace std;
-struct TreeNode
-{
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-};
-// 根据层序遍历数组构建二叉树
-TreeNode* buildTree(const vector<int>& nodes) {
-    if (nodes.empty() || nodes[0] == -1) return nullptr;
-
-    queue<TreeNode*> que;
-    TreeNode* root = new TreeNode(nodes[0]);
-    que.push(root);
-    int i = 1;
-
-    while (!que.empty() && i < nodes.size()) {
-        TreeNode* cur = que.front();
-        que.pop();
-
-        // 构建左子节点
-        if (i < nodes.size() && nodes[i] != -1) {
-            cur->left = new TreeNode(nodes[i]);
-            que.push(cur->left);
-        }
-        i++;
-
-        // 构建右子节点
-        if (i < nodes.size() && nodes[i] != -1) {
-            cur->right = new TreeNode(nodes[i]);
-            que.push(cur->right);
-        }
-        i++;
-    }
-    return root;
-}
+#include "0.cpp"
 // @lc code=start
 /**
  * Definition for a binary tree node.
@@ -63,32 +19,33 @@ TreeNode* buildTree(const vector<int>& nodes) {
 class Solution {
 public:
     vector<int> rightSideView(TreeNode* root) {
-        int size=0;
-        vector<int> results;
+
         queue<TreeNode*> que;
-        que.push(root);
-        size++;
-        if (!root) return results;
+        que.emplace(root);
+        int curCnt=1;
+        int nxtCnt=0;
+        vector<int> result;
+        int leftElement;
+        if (root==nullptr) return result;
         while(!que.empty()){
-            int size2=size;
-            size=0;
-            int result;
-            for(int i=0;i<size2;i++){
-                TreeNode* cur=que.front();
+            while(curCnt){
+                if(que.front()->left){
+                    nxtCnt++;
+                    que.emplace(que.front()->left);
+                }
+                if(que.front()->right){
+                    nxtCnt++;
+                    que.emplace(que.front()->right);
+                }
+                leftElement=que.front()->val;
+                curCnt--;
                 que.pop();
-                result=cur->val;
-                if(cur->left){
-                    que.push(cur->left);
-                    size++;
-                }
-                if(cur->right){
-                    que.push(cur->right);
-                    size++;
-                }
             }
-            results.emplace_back(result);
+            result.emplace_back(leftElement);
+            curCnt=nxtCnt;
+            nxtCnt=0;
         }
-        return  results;
+        return result;
     }
 };
 // @lc code=end
