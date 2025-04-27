@@ -8,20 +8,16 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        vector<int> preSum(nums.size()+1,0);
+        vector<int> pre(nums.size()+1,0);
         for(int i=0;i<nums.size();i++){
-            preSum[i+1]=preSum[i]+nums[i];
+            pre[i+1]=pre[i]+nums[i];
         }
 
         int ans=0;
         unordered_map<int,int> cnt;
-        cnt[0]=1;
-        for(int i=1;i<preSum.size();i++){
-            if(cnt.find(preSum[i]-k)!=cnt.end()){
-                ans+=cnt[preSum[i]-k];
-                
-            }
-            cnt[preSum[i]]++;
+        for(auto it :pre){
+            ans+=cnt.find(it-k)!=cnt.end()?cnt[it-k]:0;
+            cnt[it]++;
         }
         return ans;
     }
