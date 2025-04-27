@@ -6,24 +6,28 @@
 #include "0.cpp"
 // @lc code=start
 class Solution {
-public:
-    vector<vector<int>> result;
+    int sum=0;
     vector<int> path;
-    void backtracking(vector<int>& candidates,int target,int sum,int stratIndex){
+    vector<vector<int>> result;
+    void backtracking(vector<int>& candidates, int target, int startIndex){
+        if(sum>target)
+            return ;
         if(sum==target){
             result.emplace_back(path);
-            return;
+            return ;
         }
-        if(sum>target) return;
-        for(int i=stratIndex;i<candidates.size();i++){
+        for(int i=startIndex;i<candidates.size();i++){
+            sum+=candidates[i];
             path.emplace_back(candidates[i]);
-            backtracking(candidates,target,sum+candidates[i],i);
+            backtracking(candidates,target,i);
             path.pop_back();
+            sum-=candidates[i];
         }
-        return;
+        return ;
     }
+public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        backtracking(candidates,target,0,0);
+        backtracking(candidates,target,0);
         return result;
     }
 };
