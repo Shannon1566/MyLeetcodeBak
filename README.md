@@ -12,5 +12,4 @@
   <img src="oiiai.gif" alt="gif" width="200" />
   <img src="oiiai.gif" alt="gif" width="200" />
   <img src="oiiai.gif" alt="gif" width="200" />
-  <img src="oiiai.gif" alt="gif" width="200" />
 </div>
