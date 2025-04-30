@@ -3,4 +3,5 @@
 ## 介绍
 自用leetcode刷题备份
 
-![image](oiiai.gif)
+<img src="oiiai.gif" alt="leetcode gif" width="800" />
+
