@@ -17,34 +17,26 @@
  * };
  */
 class Solution {
-    int dfs(TreeNode* node, long long currentSum, int targetSum, unordered_map<long long, int>& cnt) {
-        if (node == nullptr) {
-            return 0;
+    int cnt=0;
+    unordered_map<long long ,int> hashMap{{0,1}};
+    void dfs(TreeNode* node,int targetSum,long long sum){
+        if (node==nullptr) return ;
+        sum+=node->val;
+        auto it = hashMap.find(sum-targetSum);
+        if(it!=hashMap.end()){
+            cnt+=hashMap[sum-targetSum];
         }
-
-        currentSum += node->val;
-        int res = 0;
-        if (cnt.count(currentSum - targetSum)) {
-            res += cnt[currentSum - targetSum];
-        }
-
-        cnt[currentSum]++;
-        res += dfs(node->left, currentSum, targetSum, cnt);
-        res += dfs(node->right, currentSum, targetSum, cnt);
-        cnt[currentSum]--; // 回溯
-
-        return res;
+        hashMap[sum]++;
+        dfs(node->left,targetSum,sum);
+        dfs(node->right,targetSum,sum);
+        hashMap[sum]--;
+        return ;
     }
 public:
     int pathSum(TreeNode* root, int targetSum) {
-        unordered_map<long long, int> cnt;
-        cnt[0] = 1; // 前缀和为 0 出现一次
-        return dfs(root, 0, targetSum, cnt);
+        dfs(root,targetSum,0);
+        return cnt;
     }
-
-
-    
 };
-
 // @lc code=end
 

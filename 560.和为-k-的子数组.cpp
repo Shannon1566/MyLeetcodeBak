@@ -8,20 +8,21 @@
 class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
-        vector<int> preSum(nums.size()+1,0);
-        for(int i=0;i<nums.size();i++){
-            preSum[i+1]=preSum[i]+nums[i];
+
+        // s[j]-s[i]==nums[i]+...+nums[j-1]
+        vector<int> presum(nums.size(),0);
+        presum[0]=nums[0];
+        for(int i=1;i<nums.size();i++){
+            presum[i]=presum[i-1]+nums[i];
         }
 
         int ans=0;
-        unordered_map<int,int> cnt;
-        cnt[0]=1;
-        for(int i=1;i<preSum.size();i++){
-            if(cnt.find(preSum[i]-k)!=cnt.end()){
-                ans+=cnt[preSum[i]-k];
-                
-            }
-            cnt[preSum[i]]++;
+        unordered_map<int,int> hashMap{{0,1}};
+        for(int i=0;i<nums.size();i++){
+            auto it=hashMap.find(presum[i]-k);
+            if(it!=hashMap.end())
+                ans+=hashMap[presum[i]-k];
+            hashMap[presum[i]]++;
         }
         return ans;
     }
