@@ -16,22 +16,22 @@
  */
 class Solution {
 public:
-    TreeNode *trav(TreeNode *node, TreeNode *p, TreeNode *q) {
-        if (node == p) return p;
-        if (node == q) return q;
-        if (node == NULL) return NULL;
-
-        TreeNode* left=trav(node->left,p,q);
-        TreeNode* right=trav(node->right,p,q);
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root==nullptr) return nullptr;
+        if(root==p||root==q) return root;
+         
+        TreeNode* left=lowestCommonAncestor(root->left,p,q);
+        TreeNode* right=lowestCommonAncestor(root->right,p,q);
         
-        if (left&&right) return node;
-        else if (left!=NULL&&right==NULL) return left;
-        else if (left==NULL&&right!=NULL) return right;
-        else return NULL;
-    }
-    TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q) {
-       
-        return  trav(root,p,q);
+        if(left!=nullptr&&right!=nullptr)
+            return root;
+        if(left==nullptr&&right!=nullptr)
+            return right;
+        if(left!=nullptr&&right==nullptr)
+            return left;
+            
+        return nullptr;
     }
 };
 // @lc code=end
+
