@@ -7,23 +7,23 @@
 // @lc code=start
 class Solution {
 public:
-    int trap(vector<int>& height) {
-        vector<int> leftMax(height.size());
-        leftMax[0]=height[0];
-        for(int i=1;i<height.size();i++){
-            leftMax[i]=max(leftMax[i-1],height[i]);
+    int trap(vector<int> &height) {
+        stack<int> st;
+        int res = 0;
+        for (int i = 0; i < height.size(); i++) {
+            while (!st.empty() && height[i] > height[st.top()]) {
+                int midIndex = st.top();
+                st.pop();
+                if (!st.empty()) {
+                    int leftIndex = st.top();
+                    int h = min(height[leftIndex], height[i])-height[midIndex];
+                    int w = i - leftIndex - 1;
+                    res += h * w;
+                }
+            }
+            st.push(i);
         }
-        vector<int> rightMax(height.size());
-        rightMax[height.size()-1]=height[height.size()-1];
-        for(int i=height.size()-2;i>=0;i--){
-            rightMax[i]=max(rightMax[i+1],height[i]);
-        }
-        int ans=0;
-        for(int i=0;i<height.size();i++){
-            ans+=min(rightMax[i],leftMax[i])-height[i];
-        }
-        return ans;
+        return res;
     }
 };
 // @lc code=end
-
