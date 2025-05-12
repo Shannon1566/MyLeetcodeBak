@@ -8,6 +8,7 @@
 #include <vector>
 #include <time.h>
 #include <deque>
+#include <cmath>
 using namespace std;
 struct TreeNode {
     int val;
