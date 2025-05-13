@@ -1,0 +1,48 @@
+/*
+ * @lc app=leetcode.cn id=347 lang=cpp
+ *
+ * [347] 前 K 个高频元素
+ */
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <queue>
+using namespace std;
+// @lc code=start
+class Solution
+{
+
+public:
+    class mycomparison
+    {
+        public:
+        bool operator()(const pair<int, int>& lhs, const pair<int, int>& rhs)
+        {
+            return lhs.second > rhs.second;;
+        }
+    };
+    vector<int> topKFrequent(vector<int> &nums, int k)
+    {
+        unordered_map<int, int> map;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            map[nums[i]]++;
+        }
+        priority_queue<pair<int, int>, vector<pair<int, int>>, mycomparison> pri_que;
+        for(auto it :map){
+            pri_que.push({it.first,it.second});
+            if(pri_que.size()>k){
+                pri_que.pop();
+            }
+        }
+        vector<int> result(k);
+        for (int i=0;i<k;i++){
+            result[k-i-1]=pri_que.top().first;
+            pri_que.pop();
+        }
+        return result;
+    }
+};
+// @lc code=end
