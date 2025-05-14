@@ -3,18 +3,17 @@
  *
  * [55] 跳跃游戏
  */
-#include"0.cpp"
+#include "0.cpp"
 // @lc code=start
 class Solution {
 public:
     bool canJump(vector<int>& nums) {
-        int cover=0;
+        int maxIndex=0;
         for(int i=0;i<nums.size();i++){
-            if (cover>=i){
-            cover=max(cover,nums[i]+i);
-            }
+            if(maxIndex<i) return false;
+            maxIndex=max(maxIndex,i+nums[i]);
         }
-        return cover>=nums.size()-1;
+        return true;
     }
 };
 // @lc code=end

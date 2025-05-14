@@ -8,19 +8,15 @@
 class Solution {
 public:
     int jump(vector<int>& nums) {
-        if(nums.size()==1) return 0;
-        int curDistance=0;
-        int nextDistance=0;
-        int ans=0;
-        for (int i=0;i<nums.size();i++){
-            nextDistance=max(nextDistance,nums[i]+i);
-            if(i==curDistance){
-                ans++;
-                curDistance=nextDistance;
-                if(nextDistance>=nums.size()-1) break;
+        int n=nums.size();
+        vector<int> dp(n,INT32_MAX);
+        dp[0]=0;
+        for(int i=0;i<n;i++){
+            for(int j=1;j<=nums[i]&&i+j<n;j++){
+                dp[i+j]=min(dp[i+j],dp[i]+1);
             }
         }
-        return ans;
+        return dp[n-1];
     }
 };
 // @lc code=end
