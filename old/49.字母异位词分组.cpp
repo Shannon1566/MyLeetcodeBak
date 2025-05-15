@@ -3,32 +3,26 @@
  *
  * [49] 字母异位词分组
  */
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <algorithm>
-using namespace std;
-
+#include "0.cpp"
 // @lc code=start
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        int n=strs.size();
-        unordered_map<string,vector<string>> hashmap;
         vector<vector<string>> result;
-
-        for (int i=0;i<n;i++){
-            string key=strs[i];
-            sort(key.begin(),key.end());
-            hashmap[key].emplace_back(strs[i]);
+        unordered_map<string,vector<string>> hashMap;
+        for(auto str:strs){
+            string strIndex=str;
+            sort(strIndex.begin(),strIndex.end());
+            auto it=hashMap.find(strIndex);
+            if(it!=hashMap.end()){
+                it->second.emplace_back(str);
+            }else{
+                hashMap.emplace(strIndex,vector<string>{str});
+            }
         }
-
-        for (auto it=hashmap.begin();it!=hashmap.end();it++){
-            result.emplace_back(it->second);
+        for(auto it:hashMap){
+            result.emplace_back(it.second);
         }
-        
         return result;
     }
 };

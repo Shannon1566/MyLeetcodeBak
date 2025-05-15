@@ -6,49 +6,44 @@
 #include "0.cpp"
 // @lc code=start
 class Solution {
-public:
     vector<vector<string>> result;
-    bool isValid(vector<string> &cheeseBoard,int row,int col,int n){
-        for(int i=0;i<n;i++){
-            if(cheeseBoard[row][i]=='Q') return false;
+    vector<string> cheeseBoard;
+    bool isValid(int n,int row,int col,vector<string> cheeseBoard){
+        for(int i=0;i<row;i++){
+            if(cheeseBoard[i][col]=='Q')
+                return false;
         }
-        for (int i = 0; i < n; i++)
-        {
-            if(cheeseBoard[i][col]=='Q') return false;
-        }
-        for (int i=-n;i<n;i++){
-            int checkRow=row+i;
-            int checkCol=col+i;
-            if(checkRow>=0&&checkRow<n&&checkCol>=0&&checkCol<n){
-                if(cheeseBoard[checkRow][checkCol]=='Q') return false;
+        for(int i=row-1,j=col-1;i>=0&&j>=0;i--,j--){
+            if(cheeseBoard[i][j]=='Q'){
+                return false;
             }
         }
-        for (int i=-n;i<n;i++){
-            int checkRow=row+i;
-            int checkCol=col-i;
-            if(checkRow>=0&&checkRow<n&&checkCol>=0&&checkCol<n){
-                if(cheeseBoard[checkRow][checkCol]=='Q') return false;
+        for(int i=row-1,j=col+1;i>=0&&j<n;i--,j++){
+            if(cheeseBoard[i][j]=='Q'){
+                return false;
             }
         }
-        return true;   
+        return true;
     }
-    void backtracking(vector<string> &cheeseBoard,int row,int n) {
-        if (row==n){
+    void backtracking(int n,int curRow,vector<string> cheeseBoard){
+        if(curRow==n){
             result.emplace_back(cheeseBoard);
-            return;
         }
-        for(int col=0;col<n;col++)
-            if (isValid(cheeseBoard,row,col,n)){
-                cheeseBoard[row][col]='Q';
-                backtracking(cheeseBoard,row+1,n);
-                cheeseBoard[row][col]='.';
-            }   
-        return;
+        for(int col=0;col<n;col++){
+            if(isValid(n,curRow,col,cheeseBoard)){
+                cheeseBoard[curRow][col]='Q';
+                backtracking(n,curRow+1,cheeseBoard);
+                cheeseBoard[curRow][col]='.';
+            }
+        }
+        return ;
     }
+public:
     vector<vector<string>> solveNQueens(int n) {
-        vector<string> cheeseBoard(n, string(n, '.'));
-        backtracking(cheeseBoard,0,n);
+        cheeseBoard=vector<string>(n,string(n,'.'));
+        backtracking(n,0,cheeseBoard);
         return result;
     }
 };
 // @lc code=end
+

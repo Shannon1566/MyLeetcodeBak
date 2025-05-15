@@ -8,14 +8,19 @@
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
-        int left=0;
         int sum=0;
-        int result=INT_MIN;
-        // [left,i]
-        for(int i=0;i<nums.size();i++){
-            sum+=nums[i];
-            result=sum>result?sum:result;
-            if(sum<0) sum=0;
+        int result=INT32_MIN;
+        int head=0;
+        int tail=0;
+        // [head,tail]
+        for(int tail=0;tail<nums.size();tail++){
+            sum+=nums[tail];
+            result=max(result,sum);
+            if(sum<0){
+                head=tail+1;
+                sum=0;
+                continue;
+            }
         }
         return result;
     }

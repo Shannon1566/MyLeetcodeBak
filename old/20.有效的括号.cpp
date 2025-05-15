@@ -3,68 +3,32 @@
  *
  * [20] 有效的括号
  */
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <stack>
-#include <unordered_map>
-#include <unordered_set>
-#include <algorithm>
-#include <queue>
-using namespace std;
+#include "0.cpp"
 // @lc code=start
-class Solution
-{
+class Solution {
+    unordered_map<char,char> pairs={
+        {')', '('},
+        {']', '['},
+        {'}', '{'}
+    };
 public:
-    bool isValid(string s)
-    {
-        stack<char> st;
-        for (int i = 0; i < s.length(); i++)
-        {
-            char c = s[i];
-            if (c == '(' || c == '[' || c == '{')
-            {
-                st.push(c);
-            }
-            else
-            {
-                if (st.empty()) return false;
-                switch (st.top())
-                {
-                case '(':
-                    if (c == ')')
-                    {
-                        st.pop();
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    break;
-                case '[':
-                    if (c == ']')
-                    {
-                        st.pop();
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    break;
-                default:
-                    if (c == '}')
-                    {
-                        st.pop();
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    break;
+    bool isValid(string s) {
+        
+        stack<char> stk;
+        int n=s.length();
+        
+        for(char c:s){
+            if(pairs.count(c)){
+                if(stk.empty()||stk.top()!=pairs[c]){
+                    return false;
                 }
+                stk.pop();
+            }else{
+                stk.push(c);
             }
         }
-        return st.empty();
+        return stk.empty();
     }
 };
 // @lc code=end
+

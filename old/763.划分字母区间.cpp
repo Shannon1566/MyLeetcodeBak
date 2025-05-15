@@ -8,21 +8,21 @@
 class Solution {
 public:
     vector<int> partitionLabels(string s) {
-        int hashSet[27]={0};
-        for(int i=0;i<s.size();i++){
-            hashSet[s[i]-'a']=i;
+        int n=s.length();
+        vector<int> tail(26,0);
+        for(int i=0;i<n;i++){
+            tail[s[i]-'a']=i;
         }
-        vector<int> result;
-        int left=0;
-        int right=0;
-        for (int i = 0; i < s.size(); i++){
-            if (hashSet[s[i]-'a']>right) right=hashSet[s[i]-'a'];
-            if(i==right){
-                result.emplace_back(right-left+1);
-                left=right+1;
+        vector<int> ans;
+        int start=0,end=0;
+        for(int i=0;i<n;i++){
+            end=max(end,tail[s[i]-'a']);
+            if(end==i){
+                ans.push_back(end-start-1);
+                start=i+1;
             }
         }
-        return result;
+        return ans;
     }
 };
 // @lc code=end

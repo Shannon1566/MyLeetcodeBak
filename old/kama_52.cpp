@@ -4,19 +4,25 @@ using namespace std;
 int main(){
     int n,bagSize;
     cin>>n>>bagSize;
-    vector<int> weigh(n);
+    vector<int> weight(n);
     vector<int> value(n);
     for(int i=0;i<n;i++){
-        cin>>weigh[i]>>value[i];
+        cin>>weight[i]>>value[i];
     }
-    vector<int> dp(bagSize+1);
+    vector<vector<int>> dp(n,vector<int>(bagSize+1,0));
 
-    for(int i=0;i<n;i++){
-        for(int j=weigh[i];j<=bagSize;j++){
-            dp[j]=max(dp[j],dp[j-weigh[i]]+value[i]);
+    for(int j=weight[0];j<=bagSize;j++){
+        dp[0][j]=dp[0][j-weight[0]]+value[0];
+    }
+    // item bag
+    for(int i=1;i<n;i++){
+        for(int j=0;j<=bagSize;j++){
+            if(j<weight[i])
+                dp[i][j]=dp[i-1][j];
+            else
+                dp[i][j]=max(dp[i-1][j],dp[i][j-weight[i]]+value[i]);
         }
     }
-    
-    cout<<dp[bagSize]<<endl;
+    cout<<dp[n-1][bagSize]<<endl;
     return 0;
 }

@@ -3,7 +3,7 @@
  *
  * [105] 从前序与中序遍历序列构造二叉树
  */
-#include"0.leetcode.cpp"
+#include "0.cpp"
 // @lc code=start
 /**
  * Definition for a binary tree node.
@@ -17,24 +17,40 @@
  * };
  */
 class Solution {
-public:
-    TreeNode* build(vector<int> &preorder,vector<int> &inorder,int beginPre,int endPre,int beginIn,int endIn){
-        if(beginIn==endIn) return NULL;
-        TreeNode* root=new TreeNode(preorder[beginPre]);
-        int inorderValueIndex=beginIn;
-        for(inorderValueIndex=beginIn;inorderValueIndex<endIn;inorderValueIndex++){
-            if(inorder[inorderValueIndex]==preorder[beginPre]) break;
-        }
-        root->left=build(preorder,inorder,beginPre+1,beginPre+1+inorderValueIndex-beginIn,beginIn,inorderValueIndex);
-        root->right=build(preorder,inorder,beginPre+1+inorderValueIndex-beginIn,endPre,inorderValueIndex+1,endIn);
-        return root;
+    unordered_map<int, int> index;
 
+    TreeNode *buildT(vector<int> &preorder, vector<int> &inorder,
+                     int pLeft, int pRight, int iLeft, int iRight) {
+        if (pLeft > pRight)
+            return nullptr;
+
+        int pRoot = pLeft;                  
+        int iRoot = index[preorder[pRoot]]; 
+
+        TreeNode *node = new TreeNode(preorder[pRoot]);
+
+        int sizeL = iRoot - iLeft; 
+
+        node->left = buildT(preorder, inorder,
+                            pLeft + 1, pLeft + sizeL,
+                            iLeft, iRoot - 1);
+
+        node->right = buildT(preorder, inorder,
+                             pLeft + sizeL + 1, pRight,
+                             iRoot + 1, iRight);
+
+        return node;
     }
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        if (preorder.size()==0) return NULL;
-        TreeNode* root=build(preorder,inorder,0,preorder.size(),0,inorder.size());
-        return root;
+
+public:
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+        int n = inorder.size();
+        for (int i = 0; i < n; i++) {
+            index[inorder[i]] = i;
+        }
+
+        return buildT(preorder, inorder, 0, n - 1, 0, n - 1);
     }
 };
-// @lc code=end
 
+// @lc code=end

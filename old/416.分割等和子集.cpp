@@ -8,23 +8,22 @@
 class Solution {
 public:
     bool canPartition(vector<int>& nums) {
-        int target=0;
-        for (int i=0;i<nums.size();i++){
-            target+=nums[i];
+        int sum=0;
+        for(auto it:nums){
+            sum+=it;
         }
-        if (target % 2==1) return false;
-        target=target/2;
+        if(sum%2==1)return false;
+        int target=sum/2;
 
-        vector<int> dp(10001,0);
-        // dp[j]: 容量为i的背包，塞入数字的最大和为多少
-
-        for(int i=0;i<nums.size();i++){//物品
+        vector<int> dp(target+1,0);
+        
+        for(int i=0;i<nums.size();i++){
             for(int j=target;j>=nums[i];j--){
                 dp[j]=max(dp[j],dp[j-nums[i]]+nums[i]);
+                if(dp[target]==target) return true;
             }
         }
-
-        return dp[target]==target;
+        return false;
     }
 };
 // @lc code=end

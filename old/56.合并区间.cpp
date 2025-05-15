@@ -11,8 +11,8 @@ public:
         return a[0]<b[0];
     }
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        vector<vector<int>> result;
         sort(intervals.begin(),intervals.end(),cmp);
+        vector<vector<int>> result;
         result.emplace_back(intervals[0]);
         for(int i=1;i<intervals.size();i++){
             if(result.back()[1]>=intervals[i][0]){
@@ -21,6 +21,7 @@ public:
                 result.emplace_back(intervals[i]);
             }
         }
+
         return result;
     }
 };

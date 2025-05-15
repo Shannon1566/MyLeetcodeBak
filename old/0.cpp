@@ -1,11 +1,14 @@
+#include <algorithm>
+#include <iostream>
+#include <list>
 #include <queue>
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <algorithm>
-#include <list>
-#include <iostream>
+#include <time.h>
+#include <deque>
+#include <cmath>
 using namespace std;
 struct TreeNode {
     int val;
@@ -15,6 +18,15 @@ struct TreeNode {
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+
 // int main(){
 //     vector<int> nodes = {3,9,20,-1,-1,15,7}; // -1 代表 null
 //     TreeNode* root = buildTree(nodes);

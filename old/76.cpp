@@ -3,52 +3,46 @@
  *
  * [76] 最小覆盖子串
  */
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-using namespace std;
+#include "0.cpp"
 // @lc code=start
-
 class Solution {
-public:
-    unordered_map<char,int> hashMap_t;
-    unordered_map<char,int> hashMap_s;
-    bool hasStringt(string &s,int head,int tail){       
-        for(auto& pair :hashMap_t){
-            if(hashMap_s[pair.first]<pair.second){
-                return false;
-            }
+    bool isValid(unordered_map<char,int>& hashMap){
+        for(auto it:hashMap){
+            if(it.second>0) return false;
         }
-
         return true;
     }
+public:
     string minWindow(string s, string t) {
-        int i=0;
-        int sLength=s.length();
-        int tLength=t.length();
-        int result=INT32_MAX;
-        int resultHead=0,resultTail=0;
-        int subLength=0;
-        for (int j=0;j<tLength;j++){
-            hashMap_t[t[j]]++;
+        unordered_map<char,int> hashMap;
+        for(int i=0;i<t.size();i++){
+            hashMap[t[i]]++;
         }
-        for (int j=0;j<sLength;j++){
-            hashMap_s[s[j]]++;
-            while(hasStringt(s,i,j)){
-                subLength=j-i+1;
-                // result=min(result,subLength);
-                if (subLength<result){
-                    result=subLength;
-                    resultHead=i;
-                    resultTail=j;
+        int head=0;
+        int tail=0;
+        int minLength=INT32_MAX;
+        int resultHead=0;
+        int resultTail=0;
+        // [head,tail]
+        for(tail=0;tail<s.size();tail++){
+            if(hashMap.find(s[tail])!=hashMap.end()){
+                hashMap[s[tail]]--;
+            }
+            while(isValid(hashMap)){
+                if(minLength>tail-head+1){
+                    minLength=tail-head+1;
+                    resultHead=head;
+                    resultTail=tail;
                 }
-                hashMap_s[s[i]]--;
-                i++;
-            }  
+                if(hashMap.find(s[head])!=hashMap.end()){
+                    hashMap[s[head]]++;
+                }
+                head++;
+            }
+            
         }
-        return result==INT32_MAX?"":s.substr(resultHead,result);
+        if(minLength==INT32_MAX) return "";
+        return s.substr(resultHead,minLength);
     }
 };
 // @lc code=end
@@ -60,7 +54,7 @@ int main() {
 
 
     // 调用解题函数并输出结果
-    cout<<solution.minWindow("a","a")<<endl;
+    cout<<solution.minWindow("a","aa")<<endl;
 
 
     return 0;

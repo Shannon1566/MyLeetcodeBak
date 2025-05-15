@@ -9,25 +9,22 @@ class Solution {
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
         int sum=0;
-        for(int i=0;i<nums.size();i++){
+        for (int i=0;i<nums.size();i++){
             sum+=nums[i];
         }
-        int bagTarget=(target+sum)/2;
+        int left=(target+sum)/2;
+        if ((target+sum)%2==1) return 0;
+        if (abs(target)>sum) return 0;
+        vector<int> dp(1001,0);
+        // 容量为j的背包装满有多少种方法
 
-        if ((target + sum) % 2 == 1) return 0; 
-        if (abs(target) > sum) return 0;
-
-        // dp[j]:装满容量为j的背包有多少种方法
-        vector<int> dp(bagTarget+1,0);
         dp[0]=1;
-
-        for(int i=0;i<nums.size();i++){
-            for(int j=bagTarget;j>=nums[i];j--){
+        for(int i=0;i<nums.size();i++){//物品
+            for(int j=left;j>=nums[i];j--){//背包
                 dp[j]+=dp[j-nums[i]];
             }
         }
-
-        return dp[bagTarget];
+        return dp[left];
 
     }
 };

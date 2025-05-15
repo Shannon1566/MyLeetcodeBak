@@ -16,18 +16,17 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        unordered_set<ListNode*> setA;
-        while(headA){
-            setA.emplace(headA);
-            headA=headA->next;
-        }
-        while(headB){
-            auto it=setA.find(headB);
-            if(it!=setA.end()){
-                return headB;
-            }else{
-                headB=headB->next;
-            }
+        ListNode *curA=headA,*curB=headB;
+        while(1){
+            if(curA=curB) return curA;
+            if(curA=nullptr)
+                curA=headB;
+            else
+                curA=curA->next;
+            if(curB=nullptr)
+                curB=headA;
+            else
+                curB=curB->next;
         }
         return nullptr;
     }

@@ -3,26 +3,21 @@
  *
  * [1] 两数之和
  */
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-using namespace std;
+#include "0.cpp"
 // @lc code=start
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        int n=nums.size();
         unordered_map<int,int> map;
         vector<int> result;
-        for (int i=0;i<n;i++){
-            auto it=map.find(nums[i]);
+        for(int i=0;i<nums.size();i++){
+            auto it=map.find(target-nums[i]);
             if(it!=map.end()){
                 result.emplace_back(it->second);
                 result.emplace_back(i);
+                return result;
             }else{
-                map.insert({target-nums[i],i});
+                map.emplace(nums[i],i);
             }
         }
         return result;

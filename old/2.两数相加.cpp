@@ -4,42 +4,40 @@
  * [2] 两数相加
  */
 #include "0.cpp"
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
-};
-
 // @lc code=start
-
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
-    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
-        ListNode* result=new ListNode();
-        ListNode* cur=result;
-        int cnt=0,a=0,b=0;
-        while(l1||l2){
-            if(l1){
-                a=l1->val;
-                l1=l1->next;
-            }else a=0;
-            if(l2){
-                b=l2->val;
-                l2=l2->next;
-            }else b=0;
-            ListNode* node=new ListNode((a+b+cnt)%10);
-            cnt=(a+b+cnt)/10;
-
-            cur->next=node;
-            cur=node;
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int cnt=0;
+        ListNode* hummyHead=new ListNode();
+        ListNode* pre=hummyHead;
+        while(l1||l2||cnt){
+            int a=0,b=0;
+            if (l1) a=l1->val;
+            if (l2) b=l2->val;
+            
+            int sum=a+b+cnt;
+            cnt=sum/10;
+            sum=sum%10;
+            ListNode* cur= new ListNode(sum);
+            pre->next=cur;
+            pre=cur;
+            if(l1) l1=l1->next;
+            if(l2) l2=l2->next;
         }
-        if (cnt!=0){
-            ListNode* node=new ListNode(cnt);
-            cur->next=node;
-        } 
-        return result->next;
+
+        return hummyHead->next;
     }
 };
 // @lc code=end
+

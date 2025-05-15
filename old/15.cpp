@@ -3,55 +3,51 @@
  *
  * [15] 三数之和
  */
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-#include <algorithm>
-using namespace std;
+#include "0.cpp"
 // @lc code=start
 class Solution {
-    public:
-        vector<vector<int>> threeSum(vector<int>& nums) {
-            sort(nums.begin(),nums.end());
-            int n=nums.size();
-            vector<vector<int>> result;
-            for (int i=0;i<n;i++){
-    
-                if (nums[i]>0) return result;
-    
-                while(i>0 &&i<n&& nums[i-1]==nums[i]) i++;
-    
-                int left=i+1;
-                int right=n-1;
-    
-                while(left<right){
-                    if (nums[i]+nums[left]+nums[right]==0){
-                        vector<int> ileftright={nums[i],nums[left],nums[right]};
-                        result.emplace_back(ileftright);
-                        while(right>left&&nums[right]==nums[right-1]) right--;
-                        while(right>left&&nums[left]==nums[left+1]) left++;
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> results;
+        sort(nums.begin(),nums.end());
+        int i=0;
+        while(i<nums.size()){
+            int left=i+1;
+            int right=nums.size()-1;
+            while(left<right){
+                int sum=nums[i]+nums[left]+nums[right];
+                if(sum==0){
+                    vector<int> result{nums[i],nums[left],nums[right]};
+                    results.emplace_back(result);
+                    do{
                         right--;
+                    }while(right>=left&&nums[right+1]==nums[right]);
+                    do{
                         left++;
+                    }while(left<=right&&nums[left-1]==nums[left]);
+                }else if(sum>0){
+                    do{
+                        right--;
+                    }while(right>=left&&nums[right+1]==nums[right]);
                         
-                    }else if (nums[i]+nums[left]+nums[right]>0){
-                        right--;                   
-                    }else{
+                }else if(sum<0){
+                    do{
                         left++;
-                    }
+                    }while(left<=right&&nums[left-1]==nums[left]);
+                        
                 }
-                
             }
-            return result;
-    
+            do{
+                i++;
+            }while(i<nums.size()&&nums[i-1]==nums[i]);
         }
-    };
+        return results;
+    }
+};
 // @lc code=end
-
 int main(){
-    Solution solution;
-    vector<int> nums={0,0,0};
-    solution.threeSum(nums);
+    Solution sol;
+    vector<int> nums{-1,0,1,2,-1,-4};
+    sol.threeSum(nums);
     return 0;
 }
