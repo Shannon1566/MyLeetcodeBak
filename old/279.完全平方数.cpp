@@ -8,13 +8,13 @@
 class Solution {
 public:
     int numSquares(int n) {
-        vector<int> dp(n+1,INT_MAX);//组成n的最小平方数的数量
-        //组合数，先物品，再背包
+        vector<int> dp(n+1,INT_MAX);
         dp[0]=0;
-        for(int i=0;i*i<=n;i++){
+        // 先物品 后背包 组合数
+        // 先背包 后物品 排列数
+        for(int i=1;i*i<=n;i++){
             for(int j=i*i;j<=n;j++){
-                if(dp[j-i*i]==INT_MAX) continue;
-                dp[j]=min(dp[j],dp[j-i*i]+1);
+                dp[j] =min(dp[j-i*i]+1,dp[j]);
             }
         }
         return dp[n];
