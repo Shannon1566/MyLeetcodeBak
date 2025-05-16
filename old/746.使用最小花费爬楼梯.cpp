@@ -8,14 +8,27 @@
 class Solution {
 public:
     int minCostClimbingStairs(vector<int>& cost) {
-        // 爬上n台阶最小需要的体力花费
-        vector<int> dp(cost.size()+1,INT_MAX);
-        dp[0]=0;
-        dp[1]=0;
-        for(int i=2;i<=cost.size();i++){
-            dp[i]=min(cost[i-1]+dp[i-1],cost[i-2]+dp[i-2]);
+        // int n=cost.size();
+        // // 爬上i需要的最小花费
+        // vector<int> dp(n+1);
+        // dp[0]=0;
+        // dp[1]=0;
+        // for(int i=2;i<=n;i++){
+        //     dp[i]=min(dp[i-2]+cost[i-2],dp[i-1]+cost[i-1]);
+        // }
+        // return dp[n];
+
+        int n=cost.size();
+        // 爬上i需要的最小花费
+        vector<int> dp(n+1);
+        int a=0,b=0,c;
+        for(int i=2;i<=n;i++){
+            c=min(a+cost[i-2],b+cost[i-1]);
+            a=b;
+            b=c;
         }
-        return dp[cost.size()];
+        return b;
+
     }
 };
 // @lc code=end

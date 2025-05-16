@@ -8,14 +8,15 @@
 class Solution {
 public:
     int fib(int n) {
-        vector<int> dp(n+1);
-        dp[0]=0;
-        if(n==0) return dp[0];
-        dp[1]=1;
+        int a=0,b=1,c;
+        if(n==0) return a;
+        if(n==1) return b;
         for(int i=2;i<=n;i++){
-            dp[i]=dp[i-1]+dp[i-2];
+            c=a+b;
+            a=b;
+            b=c;
         }
-        return dp[n];
+        return c;
     }
 };
 // @lc code=end
