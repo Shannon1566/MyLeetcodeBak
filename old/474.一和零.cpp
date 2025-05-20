@@ -3,24 +3,23 @@
  *
  * [474] 一和零
  */
-#include "0.cpp"
+#include "0.h"
 // @lc code=start
 class Solution {
 public:
     int findMaxForm(vector<string>& strs, int m, int n) {
-        vector<vector<int>> dp(101,vector<int>(101,0));
-        // 装满m个1 n个0的背包的最大子集长度
+        // i j 容量的背包装了多少个物品
+        vector<vector<int>> dp(m+1,vector<int>(n+1,0));
+        dp[0][0]=0;
         for(auto str:strs){
-            int zeroNum=0,oneNum=0;
-            for(int k=0;k<str.size();k++){
-                if(str[k]=='0') zeroNum++;
-                if(str[k]=='1') oneNum++;
+            int x=0,y=0;
+            for(auto ch:str){
+                if(ch=='0') x++;
+                else y++;
             }
-            for (int i=m;i>=zeroNum;i--){
-                for (int j=n;j>=oneNum;j--){
-                    dp[i][j]=max(dp[i][j],dp[i-zeroNum][j-oneNum]+1);
-                }
-            }
+            for(int i=m;i>=x;i--)
+                for(int j=n;j>=y;j--)
+                    dp[i][j]=max(dp[i-x][j-y]+1,dp[i][j]);
         }
         return dp[m][n];
     }
