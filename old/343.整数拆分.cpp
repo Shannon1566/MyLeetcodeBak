@@ -3,17 +3,18 @@
  *
  * [343] 整数拆分
  */
-#include "0.cpp"
+#include "0.h"
 // @lc code=start
 class Solution {
 public:
     int integerBreak(int n) {
-        // 拆分i的最大结果
+        // i拆分的最大结果
         vector<int> dp(n+1,0);
-        dp[2]=1;
-        for(int i=3;i<=n;i++){
-            for(int j=1;j<=i/2;j++){
-                dp[i]=max(dp[i],max(j*dp[i-j],j*(i-j)));
+        dp[0]=0;
+        dp[1]=1;
+        for(int i=2;i<=n;i++){
+            for(int j=1;j<i;j++){
+                dp[i]=max((i-j)*j,max(dp[i],dp[i-j]*(j)));
             }
         }
         return dp[n];
