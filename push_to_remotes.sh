@@ -3,6 +3,8 @@
 # 移动除 0.cpp 外的所有 .cpp 文件到 ./old
 find . -maxdepth 1 -type f -name "*.cpp" ! -name "0.cpp" -exec mv {} ./old/ \;
 
+find . -maxdepth 1 -type f -name "*.exe" -delete
+
 # 获取当前日期，格式为 "YYYY MM DD"
 DATE=$(date "+%Y %m %d")
 
