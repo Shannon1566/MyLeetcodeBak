@@ -1,25 +1,20 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
+#include <iostream>
+#include <vector>
 using namespace std;
 int main(){
-    int n,m;
-    cin>>n>>m;
-    vector<int> weight(n);
-    vector<int> value(n);
+    int n,bagSize;
+    cin>>n>>bagSize;
+    vector<int> v(n);
+    vector<int> w(n);
     for(int i=0;i<n;i++){
-        cin>>weight[i]>>value[i];
+        cin>>w[i]>>v[i];
     }
-    vector<vector<int>> dp(n,vector<int>(m+1,0));
-    for(int j=weight[0];j<=m;j++){
-        dp[0][j]=dp[0][j-weight[0]]+value[0];
-    }
-    for(int i=1;i<n;i++){
-        for(int j=0;j<=m;j++){
-            if(j<weight[i]) dp[i][j]=dp[i-1][j];
-            else dp[i][j]=max(dp[i-1][j],dp[i][j-weight[i]]+value[i]);
+    vector<int> dp(bagSize+1,0);
+    for(int i=0;i<n;i++){
+        for(int j=w[i];j<=bagSize;j++){
+            dp[j]=max(dp[j-w[i]]+v[i],dp[j]);
         }
     }
-    cout<<dp[n-1][m]<<endl;
+    cout<<dp[bagSize]<<endl;
     return 0;
 }
