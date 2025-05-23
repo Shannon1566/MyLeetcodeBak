@@ -22,9 +22,6 @@ if [[ -n "$LOG_TEMP" ]]; then
     } > ./study.log.tmp && mv ./study.log.tmp ./study.log
 fi
 
-# 删除当前目录下的所有 .exe 文件
-find . -maxdepth 1 -type f -name "*.exe" -delete
-
 # 添加所有更改
 git add .
 

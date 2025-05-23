@@ -3,32 +3,25 @@
  *
  * [209] 长度最小的子数组
  */
-
+#include "0.h"
 // @lc code=start
-#include <iostream>
-#include <stack>
-#include <vector>
-using namespace std;
 class Solution {
 public:
-    int minSubArrayLen(int target, vector<int>& nums) {
-        int n=nums.size();
-        int i=0;
-        int sum=0;
-        int subLength=0;
-        int result=INT32_MAX;
-        for (int j=0;j<n;j++){
-            sum+=nums[j];
-            while (sum>=target){
-                subLength=j-i+1;
-                result=min(subLength,result);
-                sum-=nums[i];
-                i++;
+    int minSubArrayLen(int target, vector<int> &nums) {
+        int left = 0, right = 0;
+        int sum = 0;
+        int ans = INT32_MAX;
+        for (right = 0; right < nums.size(); right++) {
+            sum += nums[right];
+            while (sum >= target) {
+                ans = min(ans, right - left + 1);
+                sum -= nums[left];
+                left++;
+                
             }
-
         }
-        return result==INT32_MAX?0:result;
+        if(ans==INT32_MAX) return 0;
+        else return ans;
     }
 };
 // @lc code=end
-
