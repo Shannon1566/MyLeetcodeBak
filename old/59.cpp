@@ -3,76 +3,59 @@
  *
  * [59] 螺旋矩阵 II
  */
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <unordered_map>
-using namespace std;
+#include "0.h"
 // @lc code=start
 class Solution {
+    int dir[4][2]={0,1,1,0,0,-1,-1,0};
 public:
     vector<vector<int>> generateMatrix(int n) {
-        vector<vector<int>> matrix(n,vector<int>(n));
-        int direction=0;
-        int i=0,j=0;
-        int ilow=-1,ihigh=n,jlow=-1,jhigh=n;
-        for(int num=1;num<=n*n;num++){
-            matrix[j][i]=num;
-            if (direction==0){
-                i++;
-                if(i>=ihigh){
-                    i--;
-                    j++;
-                    direction=1;
-                    jlow++;
-                    continue;
-                }
+        vector<vector<int>> ans(n,vector<int>(n));
+        int row=0,col=0;
+        int curDir=0;
+        int up=-1,down=n,left=-1,right=n;
+        for(int i=1;i<=n*n;i++){
+            ans[row][col]=i;
+            row+=dir[curDir][0];
+            col+=dir[curDir][1];
+            if(col>=right){
+                up++;
+                row-=dir[curDir][0];
+                col-=dir[curDir][1];
+                curDir=(curDir+1)%4;
+                row+=dir[curDir][0];
+                col+=dir[curDir][1];
             }
-            if (direction==1){
-                j++;
-                if(j>=jhigh){
-                    j--;
-                    i--;
-                    direction=2;
-                    ihigh--;
-                    continue;
-                }
+            if(row>=down){
+                right--;
+                row-=dir[curDir][0];
+                col-=dir[curDir][1];
+                curDir=(curDir+1)%4;
+                row+=dir[curDir][0];
+                col+=dir[curDir][1];
             }
-            if (direction==2){
-                i--;
-                if(i<=ilow){
-                    i++;
-                    j--;
-                    direction=3;
-                    jhigh--;
-                    continue;
-                }
+            if(col<=left){
+                down--;
+                row-=dir[curDir][0];
+                col-=dir[curDir][1];
+                curDir=(curDir+1)%4;
+                row+=dir[curDir][0];
+                col+=dir[curDir][1];
             }
-            if (direction==3){
-                j--;
-                if(j<=jlow){
-                    j++;
-                    i++;
-                    direction=0;
-                    ilow++;
-                    continue;
-                }
+            if(row<=up){
+                left++;
+                row-=dir[curDir][0];
+                col-=dir[curDir][1];
+                curDir=(curDir+1)%4;
+                row+=dir[curDir][0];
+                col+=dir[curDir][1];
             }
-            
         }
-        return matrix;
+        return ans;
     }
 };
 // @lc code=end
-int main() {
-    // 测试代码
-
-    Solution solution;
-
-
-    // 调用解题函数并输出结果
-    solution.generateMatrix(3);
-    // cout << "Result: " << result << endl;
-
+int main(){
+    Solution sol;
+    sol.generateMatrix(3);
     return 0;
 }

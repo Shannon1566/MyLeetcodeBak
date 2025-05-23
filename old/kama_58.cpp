@@ -2,21 +2,20 @@
 #include<vector>
 using namespace std;
 int main(){
-    int n,a,b,sum=0,inputNum;
+    int n;
     cin>>n;
-    vector<int> vec(n);
-    for (int i=0;i<n;i++){
-        cin>>inputNum;
-        sum+=inputNum;
-        vec[i]=sum;
+    vector<int> preSum(n+1);
+    int sum=0;
+    preSum[0]=0;
+    for(int i=1;i<=n;i++){
+        int num;
+        cin>>num;
+        sum+=num;
+        preSum[i]=sum;
     }
+    int a,b;
     while(cin>>a>>b){
-        if (a==0){
-            cout<<vec[b]<<endl;
-        }else{
-            cout<<vec[b]-vec[a-1]<<endl;
-        }
-        
+        cout<<preSum[b+1]-preSum[a]<<endl;
     }
     return 0;
 }

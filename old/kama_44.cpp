@@ -2,52 +2,45 @@
 #include<vector>
 using namespace std;
 int main(){
-    int m,n;
+    int n,m;
     cin>>n>>m;
-    int min=INT32_MAX;
-    vector<vector<int>> tudi_origin(n,vector<int>(m));
+    vector<vector<int>> ground(n,vector<int>(m));
     for(int i=0;i<n;i++){
         for(int j=0;j<m;j++){
-            cin>>tudi_origin[i][j];
+            cin>>ground[i][j];
         }
     }
-    
-    // vertical
-    vector<int> vartical(m);
-    int sum=0;
-    for (int i=0;i<m;i++){
-        
-        for (int j=0;j<n;j++){
-            vartical[i]+=tudi_origin[j][i];
+
+    int ans=INT32_MAX;
+
+    vector<int> preSumVertical(m);
+    int preSum=0;
+    for(int j=0;j<m;j++){
+        int rowSum=0;
+        for(int i=0;i<n;i++){
+            rowSum+=ground[i][j];
         }
-        sum+=vartical[i];
-        vartical[i]=sum;   
+        preSum+=rowSum;
+        preSumVertical[j]=preSum;
+    }
+    for(int j=0;j<m;j++){
+        ans=min(ans,abs(preSum-preSumVertical[j]*2));
     }
 
-    // horizontal
-    sum=0;
-    vector<int> horizontal(n);
-    for (int i=0;i<n;i++){
-        for (int j=0;j<m;j++){
-            horizontal[i]+=tudi_origin[i][j];
+    vector<int> preSumHorizontal(n);
+    int preSum_2=0;
+    for(int i=0;i<n;i++){
+        int colSum=0;
+        for(int j=0;j<m;j++){
+            colSum+=ground[i][j];
         }
-        sum+=horizontal[i];
-        horizontal[i]=sum;   
+        preSum_2+=colSum;
+        preSumHorizontal[i]=preSum_2;
+    }
+    for(int i=0;i<n;i++){
+        ans=min(ans,abs(preSum_2-preSumHorizontal[i]*2));
     }
 
-    int result=0;
-    for (int i=0;i<m;i++){
-        result=vartical[m-1]-vartical[i]-vartical[i];
-        result=abs(result);
-        min=result<min?result:min;
-    }
-
-    for (int i=0;i<n;i++){
-        result=horizontal[n-1]-horizontal[i]-horizontal[i];
-        result=abs(result);
-        min=result<min?result:min;
-    }
-
-    cout<<min;
+    cout<<ans;
     return 0;
 }
