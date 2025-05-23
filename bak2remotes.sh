@@ -1,12 +1,18 @@
 #!/bin/bash
 
-# 移动除 0.cpp 外的所有 .cpp 文件到 ./old
-find . -maxdepth 1 -type f -name "*.cpp" ! -name "0.cpp" -exec mv {} ./old/ \;
-
-find . -maxdepth 1 -type f -name "*.exe" -delete
-
 # 获取当前日期，格式为 "YYYY MM DD"
 DATE=$(date "+%Y %m %d")
+
+# 移动除 0.cpp 外的所有 .cpp 文件到 ./old，并记录日志
+for file in ./*.cpp; do
+    if [[ "$(basename "$file")" != "0.cpp" ]]; then
+        mv "$file" ./old/
+        echo "$DATE $(basename "$file")" >> ./study.log
+    fi
+done
+
+# 删除当前目录下的所有 .exe 文件
+find . -maxdepth 1 -type f -name "*.exe" -delete
 
 # 添加所有更改
 git add .
