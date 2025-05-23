@@ -8,14 +8,15 @@
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
-        vector<long long> dp(amount+1,0);
+        // dp[i]:cnt of conis in [i] bagSize;
+        vector<unsigned long long> dp(amount+1,0);
         dp[0]=1;
         for(int i=0;i<coins.size();i++){
             for(int j=coins[i];j<=amount;j++){
                 dp[j]+=dp[j-coins[i]];
             }
         }
-        return  dp[amount];
+        return dp[amount];
     }
 };
 // @lc code=end

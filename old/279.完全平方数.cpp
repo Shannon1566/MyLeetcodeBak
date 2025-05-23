@@ -10,15 +10,20 @@ public:
     int numSquares(int n) {
         vector<int> dp(n+1,INT32_MAX);
         dp[0]=0;
-        dp[1]=1;
         for(int i=1;i<=n;i++){
             for(int j=i*i;j<=n;j++){
-                if(dp[j-i*i]!=INT32_MAX)
-                    dp[j]=min(dp[j],dp[j-i*i]+1);
+                dp[j]=min(dp[j-i*i]+1,dp[j]);
             }
+            for(auto it:dp) cout<<it<<' ';
+            cout<<endl;
         }
         return dp[n];
     }
 };
+int main(){
+    Solution sol;
+    sol.numSquares(12);
+    return 0;
+}
 // @lc code=end
 

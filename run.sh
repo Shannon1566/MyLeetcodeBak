@@ -27,4 +27,5 @@ fi
 # 运行
 echo "运行 $cpp_file"
 ./"$filename"
+rm ./"$filename"
 
