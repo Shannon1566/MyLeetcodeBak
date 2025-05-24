@@ -3,28 +3,18 @@
  *
  * [383] 赎金信
  */
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
-using namespace std;
+#include "0.h"
 // @lc code=start
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        unordered_map<char,int> hashMap;
-        int magazineLength=magazine.length();
-        for (int i=0;i<magazineLength;i++){
-            hashMap[magazine[i]]++;
+        vector<int> hashMap(26,0);
+        for(char ch:magazine){
+            hashMap[ch-'a']++;
         }
-
-        int ransomNoteLength=ransomNote.length();
-        for (int i=0;i<ransomNoteLength;i++){
-            auto it = hashMap.find(ransomNote[i]);
-            if (it!=hashMap.end()){
-                hashMap[ransomNote[i]]--;
-                if (hashMap[ransomNote[i]]==0) hashMap.erase(ransomNote[i]);
+        for(int i=0;i<ransomNote.size();i++){
+            if(hashMap[ransomNote[i]-'a']>0){
+                hashMap[ransomNote[i]-'a']--;
             }else{
                 return false;
             }

@@ -3,24 +3,23 @@
  *
  * [1] 两数之和
  */
-#include "0.cpp"
+#include "0.h"
 // @lc code=start
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int,int> map;
-        vector<int> result;
+        unordered_map<int,int> hashMap;
+        vector<int> ans(2);
         for(int i=0;i<nums.size();i++){
-            auto it=map.find(target-nums[i]);
-            if(it!=map.end()){
-                result.emplace_back(it->second);
-                result.emplace_back(i);
-                return result;
-            }else{
-                map.emplace(nums[i],i);
+            auto it=hashMap.find(nums[i]);
+            if(it!=hashMap.end()){
+                ans[0]=i;
+                ans[1]=it->second;
+                return ans;
             }
+            hashMap.emplace(target-nums[i],i);
         }
-        return result;
+        return ans;
     }
 };
 // @lc code=end
