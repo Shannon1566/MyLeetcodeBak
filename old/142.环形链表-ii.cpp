@@ -3,7 +3,7 @@
  *
  * [142] 环形链表 II
  */
-#include "0.cpp"
+#include "0.h"
 // @lc code=start
 /**
  * Definition for singly-linked list.
@@ -16,14 +16,15 @@
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
-        ListNode *fast=head,*slow=head;
+        ListNode* fast=head;
+        ListNode* slow=head;
         while(fast&&fast->next){
-            fast=fast->next->next;
             slow=slow->next;
-            if(fast==slow){
-                ListNode* ptr=head;
-                while(ptr!=fast){
-                    ptr=ptr->next;
+            fast=fast->next->next;
+            if(slow==fast){
+                slow=head;
+                while(slow!=fast){
+                    slow=slow->next;
                     fast=fast->next;
                 }
                 return fast;
