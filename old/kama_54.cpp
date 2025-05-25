@@ -3,28 +3,29 @@
 using namespace std;
 int main(){
     string s;
-    while(cin>>s){
-        int sLength=s.length();
-        int numCnt=0;
-        for(int i=0;i<sLength;i++){
-            if(s[i]>='0'&&s[i]<='9') numCnt++;
+    cin>>s;
+    int numCnt=0;
+    for(char ch:s){
+        if(ch>='0'&&ch<='9'){
+            numCnt++;
         }
-        s.resize(sLength+numCnt*(6-1));
-        int tailOld=sLength-1;
-        int tailNew=s.length()-1;
-        while(tailOld>=0){
-            if (s[tailOld]>='0'&&s[tailOld]<='9'){
-                s[tailNew--] = 'r';
-                s[tailNew--] = 'e';
-                s[tailNew--] = 'b';
-                s[tailNew--] = 'm';
-                s[tailNew--] = 'u';
-                s[tailNew--] = 'n';
-            }else{
-                s[tailNew--] = s[tailOld];
-            }
-            tailOld--;
-        }
-        cout<<s<<endl;
     }
+    int left=s.size()-1;
+    s.resize(s.size()+numCnt*5);
+    int right=s.size()-1;
+    while(left>0){
+        if(s[left]>='0'&&s[left]<='9'){
+            s[right--]='r';
+            s[right--]='e';
+            s[right--]='b';
+            s[right--]='m';
+            s[right--]='u';
+            s[right--]='n';
+        }else{
+            s[right--]=s[left];
+        }
+        left--;
+    }
+    cout<<s<<endl;
+    return 0;
 }
